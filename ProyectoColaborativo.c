@@ -87,44 +87,50 @@ void ingresarProductos(char nombres[][NOMBRES], float recursosTiempo[][2])
 void agregarProducto(char nombres[][NOMBRES], float recursosTiempo[][2])
 {
     int espacioDisponible = -1;
+    int cont = 0;
 
-    for (int i = 0; i < PRODUCTOS; i++)
+    do
     {
-        if (strlen(nombres[i]) == 0)
+        for (int i = 0; i < PRODUCTOS; i++)
         {
-            espacioDisponible = i;
-            break;
+            if (strlen(nombres[i]) == 0)
+            {
+                espacioDisponible = i;
+                break;
+            }
         }
-    }
 
-    if (espacioDisponible == -1)
-    {
-        printf("No hay espacio disponible para agregar más productos.\n");
-        return;
-    }
+        if (espacioDisponible == -1)
+        {
+            printf("No hay espacio disponible para agregar más productos.\n");
+            cont = 1;
+        }
+        else
+        {
+            printf("Ingrese el nombre del nuevo producto:\n");
+            fgets(nombres[espacioDisponible], NOMBRES, stdin);
+            strtok(nombres[espacioDisponible], "\n");
 
-    printf("Ingrese el nombre del nuevo producto:\n");
-    fgets(nombres[espacioDisponible], NOMBRES, stdin);
-    strtok(nombres[espacioDisponible], "\n");
+            do
+            {
+                printf("Ingrese la cantidad de recursos que requiere para fabricar una unidad (> 0):\n");
+                scanf("%f", &recursosTiempo[espacioDisponible][0]);
+                if (recursosTiempo[espacioDisponible][0] <= 0)
+                    printf("Error: el valor debe ser mayor a 0.\n");
+            } while (recursosTiempo[espacioDisponible][0] <= 0);
 
-    do
-    {
-        printf("Ingrese la cantidad de recursos que requiere para fabricar una unidad (> 0):\n");
-        scanf("%f", &recursosTiempo[espacioDisponible][0]);
-        if (recursosTiempo[espacioDisponible][0] <= 0)
-            printf("Error: el valor debe ser mayor a 0.\n");
-    } while (recursosTiempo[espacioDisponible][0] <= 0);
+            do
+            {
+                printf("Ingrese el tiempo requerido (en minutos) para fabricar una unidad (> 0):\n");
+                scanf("%f", &recursosTiempo[espacioDisponible][1]);
+                if (recursosTiempo[espacioDisponible][1] <= 0)
+                    printf("Error: el valor debe ser mayor a 0.\n");
+            } while (recursosTiempo[espacioDisponible][1] <= 0);
 
-    do
-    {
-        printf("Ingrese el tiempo requerido (en minutos) para fabricar una unidad (> 0):\n");
-        scanf("%f", &recursosTiempo[espacioDisponible][1]);
-        if (recursosTiempo[espacioDisponible][1] <= 0)
-            printf("Error: el valor debe ser mayor a 0.\n");
-    } while (recursosTiempo[espacioDisponible][1] <= 0);
-
-    getchar();
-    printf("Producto agregado exitosamente.\n");
+            printf("Producto agregado exitosamente.\n");
+            cont = 1;
+        }
+    } while (cont == 0);
 }
 
 void editarProducto(char nombres[][NOMBRES], float recursosTiempo[][2])
